@@ -1,5 +1,6 @@
 defmodule BobWeb.Router do
   use BobWeb, :router
+  import PhxLiveStorybook.Router
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -14,10 +15,15 @@ defmodule BobWeb.Router do
     plug :accepts, ["json"]
   end
 
+  scope "/" do
+    storybook_assets()
+  end
+
   scope "/", BobWeb do
     pipe_through :browser
 
     get "/", PageController, :index
+    live_storybook "/storybook", backend_module: BobWeb.Storybook
   end
 
   # Other scopes may use custom stacks.
